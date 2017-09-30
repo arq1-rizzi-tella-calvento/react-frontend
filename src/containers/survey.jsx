@@ -1,18 +1,20 @@
-import React from 'react';
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as surveyActions from '../actions'
 
-export default class App extends React.Component {
+class Survey extends React.Component {
   constructor(props) {
-    super(props);
-    this.state = { };
+    super(props)
+    this.state = { }
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   handleSubmit(event) {
-    event.preventDefault();
-    console.log('Success!', this.state);
-    alert('Inscripcion confirmada');
+    event.preventDefault()
+    this.props.surveyActions.submitSurvey(this.state)
   }
 
   handleChange(event) {
@@ -60,3 +62,13 @@ export default class App extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state, ownProps) => { return {} }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    surveyActions: bindActionCreators(surveyActions, dispatch),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Survey)
