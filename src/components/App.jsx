@@ -1,6 +1,6 @@
 import React from 'react';
-import Survey from '../containers/Survey.jsx'
 import Welcome from './Welcome.jsx'
+import Survey from '../containers/Survey.jsx'
 
 const App = () => (
   <div>
