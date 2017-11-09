@@ -2,14 +2,23 @@ import React, { Component } from 'react';
 import SubjectsList from './SubjectsList';
 
 export default class SignUp extends Component {
-  state = {
-    fullName: '',
-    email: '',
-    documentNumber: '',
-    firstSemester: false,
-    needStudentInfoSubmission: true,
-    subjects: ['Matematica I', 'Introducción a la programación', 'Organización de computadoras', 'Bases de datos', 'Estructuras de datos']
-  }; 
+  constructor(props) {
+    super(props);
+    this.state = {
+      fullName: '',
+      email: '',
+      documentNumber: '',
+      firstSemester: false,
+      needStudentInfoSubmission: true,
+      subjects: [ {id:'MT1', name:'Matematica I', condition: ''},
+        {id:'IP', name:'Introducción a la programación', condition: ''},
+        {id:'OC', name:'Organización de computadoras', condition: ''},
+        {id:'BD', name:'Bases de datos', condition: ''},
+        {id:'ED', name:'Estructuras de datos', condition: ''},
+      ]
+    };
+  }
+
   handleChange = (name) => {
     return (event) => { 
       let newChange = {};
