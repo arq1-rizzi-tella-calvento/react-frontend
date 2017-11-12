@@ -25,7 +25,7 @@ class SubjectsPoll extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        this.props.subjectsPollActions.completeSurvey(this.state)
+        this.props.subjectsPollActions.submitSurvey(this.state)
     }
 
     render() {
