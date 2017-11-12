@@ -1,3 +1,5 @@
+const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:3000'
+
 const parseJSON = (response) => {
   return Promise.resolve(response.json())
 }
@@ -29,7 +31,7 @@ const get = (path) => {
 
 const request = (path, { method, body }) => {
   return fetch(
-    path, {
+    `${BACKEND_URL}${path}`, {
       method: method,
       credentials: 'same-origin',
       headers: {

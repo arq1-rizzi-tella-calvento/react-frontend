@@ -6,7 +6,7 @@ import { createStore, applyMiddleware } from 'redux'
 import app from './reducers'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './signin.css';
-import App from './components/App.jsx'
+import App from './components/App.jsx';
 
 const store = createStore(
   app,
