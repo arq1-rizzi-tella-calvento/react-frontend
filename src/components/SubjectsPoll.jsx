@@ -1,42 +1,37 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as subjectsPollActions from '../actions'
 
-const updateCondition = (subjects, name, condition) => {
-    subjects.map(subject => {
-        if(subject.name === name){
-            subject.condition = condition
-        }
-    });
-};
-
-export default class SubjectsPoll extends Component {
+class SubjectsPoll extends React.Component {
     constructor(props) {
         super(props)
         this.state = {subjects: this.props.subjects}
+
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     setSelected = (subject) => {
-        return () => {
-                updateCondition(this.props.subjects, subject.name, this.state.value);
+        return (selected) => {
+            const selectDropdown = selected.target
+            this.props.subjects.map(subject => {
+                if(subject.name === selectDropdown.name){
+                    subject.condition = selectDropdown.value
+                }
+            });
+            this.setState({subjects: this.props.subjects});
         }
     };
 
-    onSubmit(e) {
-        e.preventDefault();
-        fetch(this.props.formAction, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({survey: this.state.subjects})
-        });
-        this.setState({description: ''});
+    handleSubmit(event) {
+        event.preventDefault();
+        this.props.subjectsPollActions.completeSurvey(this.state)
     }
 
     render() {
         return(
             <div>
-                <form action="postSurvey">
+                <form onSubmit={ this.handleSubmit }>
                     <div className="alert alert-dark">
                         Ahora decinos que materias tenes pensado cursar!
                     </div>
@@ -69,3 +64,13 @@ export default class SubjectsPoll extends Component {
         )
     }
 }
+
+const mapStateToProps = (state, ownProps) => { return {} }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        subjectsPollActions: bindActionCreators(subjectsPollActions, dispatch),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SubjectsPoll)

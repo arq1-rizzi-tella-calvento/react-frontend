@@ -10,3 +10,9 @@ export const submitSurvey = (survey) => {
     post(`${BACKEND_URL}/surveys`, survey).then((data) => { console.log(data) })
   }
 }
+
+export const completeSurvey = (survey) => {
+  return dispatch => {
+    post(`${BACKEND_URL}/completeSurvey`, survey).then((data) => { console.log(data) })
+  }
+}
