@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
+import { get } from '../httpMethods.js';
 
 const swapClasses = (element, classRemove, classAdd) => {
-  element.classList.remove(classRemove);
   element.classList.add(classAdd);
+  element.classList.remove(classRemove);
 }
 
 export default class SubjectsList extends Component {
-  setSelected = (event) => {
-    const subjectCard = event.target
+  state = { subjects: [] }
+  componentDidMount() {
+    get('/signup/subjects').then(data => this.setState({ subjects: data }));
+  }
+  setSelected = (event, subjectId) => {
+    this.props.handler(subjectId)
+    const subjectCard = event.target;
     if (subjectCard.classList.contains('bg-light')) {
-      swapClasses(subjectCard, 'bg-light', 'bg-success')
+      swapClasses(subjectCard, 'bg-light', 'bg-success');
     } else {
-      swapClasses(subjectCard, 'bg-success', 'bg-light')
+      swapClasses(subjectCard, 'bg-success', 'bg-light');
     }  
   };
   render() {
@@ -21,11 +27,13 @@ export default class SubjectsList extends Component {
           Haz click en las materias que ya aprobaste, esto evitara que aparezcan en encuestas posteriores.
         </div>
         <div className="row">
-          { this.props.subjects.map(subject => {
+          { this.state.subjects.map((name, id) => {
               return(
-                <div key={subject} className="col-xl-3 col-md-4 col-sm-6 col-12">
-                  <div className="card bg-light mb-3" onClick={this.setSelected}>
-                    <div className="card-header subject-name">{subject}</div>
+                <div key={id} className="col-xl-3 col-md-4 col-sm-6 col-12">
+                  <div className="card mb-3">
+                    <div className="card-header bg-light subject-name" onClick={(e) => this.setSelected(e, id)}>
+                      {name}
+                    </div>
                   </div>
                 </div>
               )
