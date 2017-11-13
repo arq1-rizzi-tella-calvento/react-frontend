@@ -1,0 +1,57 @@
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+
+.sign-box {
+  max-width: 450px;
+  margin: 0 auto;
+  min-height: 200px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: column;
+}
+
+.sign-heading {
+  text-align: center;
+  font-weight: 200;
+  padding-top: 20px;
+  margin-bottom: 20px;
+}
+
+.sign-box input, .sign-box .btn {
+  max-width: 330px;
+  margin: 0 auto 10px;
+}
+
+.sign-box .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.sign-box .checkbox {
+  font-weight: 400;
+  text-align: center;
+}
+
+.sign-box .checkbox input {
+  margin-left: 7px;
+}
+
+.sign-box .sign-info {
+  font-weight: 200;
+  text-align: center;
+}
+
+.subject-name {
+  font-weight: 200;
+  font-size: 10px;
+}
+
+.subject-name:hover {
+  cursor: pointer;
+}
