@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom'
 import { Link } from 'react-router-dom';
-import { get } from '../httpMethods.js';
-import Alert from './Alert.jsx';
+import Alert from '../components/Alert.jsx';
 import { handleChange } from '../formUtils.js';
+import { authStudent } from '../actions/auth.js';
 
 export default class SignIn extends Component {
   state = {
     identity_document: ''
   };
   findStudent = (event) => {
-    get(`/signin/${this.state.identity_document}`)
-    .then(data => this.props.history.push(`/survey/${data.student_id}`))
-    .catch(() => render(<Alert msg="No se encuentra el estudiante"/>, document.getElementById('alert')))
+    authStudent(
+      this.state.identity_document,
+      data => this.props.history.push(`/survey/${data.student_id}`),
+      () => render(<Alert msg="No se encuentra el estudiante"/>, document.getElementById('alert'))
+    )
     event.preventDefault();
   }
   render() {

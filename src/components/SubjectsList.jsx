@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { get } from '../httpMethods.js';
+import { allSubjects } from '../actions/subjects.js';
 
 const swapClasses = (element, classRemove, classAdd) => {
   element.classList.add(classAdd);
@@ -9,7 +9,7 @@ const swapClasses = (element, classRemove, classAdd) => {
 export default class SubjectsList extends Component {
   state = { subjects: [] }
   componentDidMount() {
-    get('/signup/subjects').then(data => this.setState({ subjects: data }));
+    allSubjects(data => this.setState({ subjects: data }));
   }
   setSelected = (event, subjectId) => {
     this.props.handler(subjectId)
@@ -23,6 +23,8 @@ export default class SubjectsList extends Component {
   render() {
     return(
       <div>
+        <div id='alert'>
+        </div>
         <div className="alert alert-dark">
           Haz click en las materias que ya aprobaste, esto evitara que aparezcan en encuestas posteriores.
         </div>

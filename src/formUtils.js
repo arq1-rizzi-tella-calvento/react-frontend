@@ -1,9 +1,5 @@
 const handleChange = (component, name) => {
-    return (event) => { 
-      let newChange = {};
-      newChange[name] = event.target.value
-      component.setState(newChange); 
-    };
+    return (event) => component.setState({ [name]: event.target.value }); 
   };
 
 export { handleChange };
