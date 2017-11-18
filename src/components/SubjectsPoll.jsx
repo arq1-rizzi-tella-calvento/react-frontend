@@ -6,20 +6,24 @@ import * as subjectsPollActions from '../actions'
 class SubjectsPoll extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {subjects: this.props.subjects}
+        const subjectsPoll = [];
+        Object.values(this.props).map(subject => {
+            var subjectCast = { id: subject[1], name: subject[0], condition: ''}
+            subjectsPoll.push(subjectCast)
+        });
+        this.state = {subjects: subjectsPoll};
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     setSelected = (subject) => {
         return (selected) => {
-            const selectDropdown = selected.target
-            this.props.subjects.map(subject => {
+            const selectDropdown = selected.target;
+            this.state.subjects.map(subject => {
                 if(subject.name === selectDropdown.name){
                     subject.condition = selectDropdown.value
                 }
             });
-            this.setState({subjects: this.props.subjects});
         }
     };
 
@@ -31,15 +35,14 @@ class SubjectsPoll extends React.Component {
     render() {
         return(
             <div>
-                <form onSubmit={ this.handleSubmit }>
                     <div className="alert alert-dark">
                         Ahora decinos que materias tenes pensado cursar!
                     </div>
                     <div className="row">
                         { this.state.subjects.map(subject => {
-                            if(subject.condition !== 'Aproobed'){
+                            if(subject.condition !== 'Approved'){
                                 return(
-                                    <div key={subject.id} className='col-md-12 form-group'>
+                                    <div key={subject.id + subject.name} className='col-md-12 form-group'>
                                         <div className='col-md-4'>{subject.name} </div>
                                         <div className='col-md-6'>
                                             <select className='form-control' value={this.state.value} onChange={this.setSelected(subject)} name={subject.name} id={subject.name}>
@@ -47,7 +50,7 @@ class SubjectsPoll extends React.Component {
                                                 <option value="cant">No puedo por los horarios</option>
                                                 <option value="c1">Cursaria en C1</option>
                                                 <option value="c2">Cursaria en C2</option>
-                                                <option value="aproobe">Ya la cursé</option>
+                                                <option value="approve">Ya la cursé</option>
                                             </select>
                                         </div>
                                     </div>
@@ -56,10 +59,9 @@ class SubjectsPoll extends React.Component {
                         })
                         }
                     </div>
-                    <button className="btn btn-sm btn-primary btn-block" type="submit">
+                    <button className="btn btn-sm btn-primary btn-block" type="button" onClick={ this.handleSubmit }>
                         Enviar
                     </button>
-                </form>
             </div>
         )
     }
