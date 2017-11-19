@@ -1,4 +1,4 @@
-const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:3000'
+const BACKEND_URL = process.env.REACT_APP_API_URL
 
 const parseJSON = (response) => {
   return Promise.resolve(response.json())
