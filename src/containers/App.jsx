@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
-import Survey from './Survey';
+import SubjectsPoll from '../components/SubjectsPoll.jsx';
 import Summary from './Summary';
 
 const FourOhFour = () => <h1>404</h1>;
@@ -13,7 +13,7 @@ const App = () => (
       <Switch>
         <Route exact path="/" component={SignIn} />
         <Route exact path="/signup" component={SignUp} />
-        <Route exact path="/survey/:user_id" component={Survey} />
+        <Route exact path="/survey/:user_id" component={SubjectsPoll} />
         <Route exact path="/director/:id" component={Summary} />
         <Route component={FourOhFour} />
       </Switch>

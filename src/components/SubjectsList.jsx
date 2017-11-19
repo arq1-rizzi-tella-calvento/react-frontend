@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { allSubjects } from '../actions/subjects.js';
-import SubjectsPoll from './SubjectsPoll';
 
 const swapClasses = (element, classRemove, classAdd) => {
     element.classList.add(classAdd);
@@ -22,13 +21,7 @@ export default class SubjectsList extends Component {
         }
     };
 
-    continuePoll = (event) => {
-        this.setState({readyToFinalPool: true})
-        event.preventDefault();
-    };
-
     render() {
-        if (!this.state.readyToFinalPool) {
             return(
                 <div>
                     <div id='alert'>
@@ -50,13 +43,10 @@ export default class SubjectsList extends Component {
                         })
                         }
                     </div>
-                    <button className="btn btn-sm btn-primary btn-block" type="submit" onClick={this.continuePoll}>
+                    <button className="btn btn-sm btn-primary btn-block" type="submit">
                         Continuar con la encuesta
                     </button>
                 </div>
             )
-        } else{
-            return <SubjectsPoll {...this.state.subjects} />
-        }
     }
 }
