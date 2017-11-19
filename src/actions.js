@@ -7,6 +7,6 @@ const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:3000'
 // action creators
 export const submitSurvey = (survey) => {
   return dispatch => {
-    post(`${BACKEND_URL}/surveys`, survey).then((data) => { console.log(data) })
+    post(`/surveys`, survey).then((data) => { console.log(data) })
   }
 }
