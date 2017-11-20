@@ -1,12 +1,20 @@
-import { post } from './httpMethods'
+import { post, get } from './httpMethods'
+
 // action types
 export const SUBMIT_SURVEY = 'SUBMIT_SURVEY'
-
-const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:3000'
+export const SUBJECTS_SUMMARY = 'SUBJECTS_SUMMARY'
 
 // action creators
 export const submitSurvey = (survey) => {
   return dispatch => {
-    post(`${BACKEND_URL}/surveys`, survey).then((data) => { console.log(data) })
+    post('/surveys', survey).then((data) => { console.log(data) })
+  }
+}
+
+export const getSubjectsSummary = () => {
+  return dispatch => {
+    get('/summary').then((data) => {
+      dispatch({data: data, type: 'SUBJECTS_SUMMARY'})
+    })
   }
 }
