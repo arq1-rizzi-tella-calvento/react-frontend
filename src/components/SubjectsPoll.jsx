@@ -1,29 +1,15 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { allSubjects } from '../actions/subjects.js';
+import { surveyOptions } from '../actions/subjects.js';
 import Alert from '../components/Alert.jsx';
 import { render } from 'react-dom';
-import { submitSurvey } from '../actions/auth.js';
+import { submitSurvey } from '../actions/subjects';
 
 export default class  SubjectsPoll extends Component {
     state = { subjects: [] }
     componentDidMount() {
-        allSubjects(data => this.castToSubjectPoll(data));
-    }
-
-    constructor(props) {
-        super(props)
-        this.handleSubmit = this.handleSubmit.bind(this)
-    }
-
-    castToSubjectPoll = (data) => {
-        const subjectsPoll = this.state.subjects;
-        Object.values(data).map(subject => {
-            var subjectCast = { id: subject[1], name: subject[0], condition: ''}
-            subjectsPoll.push(subjectCast)
-        });
-        this.setState({ subjects : subjectsPoll})
+        surveyOptions(
+            this.props.match.params.user_id,
+            data => this.setState({ userId: this.props.match.params.user_id, subjects: data }))
     }
 
     setSelected = (subject) => {
@@ -46,6 +32,32 @@ export default class  SubjectsPoll extends Component {
         event.preventDefault();
     }
 
+    _renderSubject(subject) {
+        return (
+            <div key={subject.name} className='col-md-12 form-group'>
+                <div className='col-md-4'>{subject.name} </div>
+                <div className='col-md-6'>
+                    <select className='form-control' value={this.state.value} onChange={this.setSelected(subject)} name={subject.name} id={subject.name}>
+                        <option value="">Todavía no voy a cursar</option>
+                        <option value="cant">No puedo por los horarios</option>
+                        { this._generateChairOptions(subject.chairs)}
+                        <option value="approve">Ya la cursé</option>
+                    </select>
+                </div>
+            </div>
+        )
+    }
+
+    _generateChairOptions(chairs){
+        return (
+            chairs.map((name,id) => {
+                return(
+                    <option value={id}>{name}</option>
+                )
+            })
+        )
+    }
+
     render() {
         return(
             <form onSubmit={ this.handleSubmit }>
@@ -57,22 +69,9 @@ export default class  SubjectsPoll extends Component {
                     </div>
                     <div className="row">
                         { this.state.subjects.map(subject => {
-                            if(subject.condition !== 'Approved'){
-                                return(
-                                    <div key={subject.id + subject.name} className='col-md-12 form-group'>
-                                        <div className='col-md-4'>{subject.name} </div>
-                                        <div className='col-md-6'>
-                                            <select className='form-control' value={this.state.value} onChange={this.setSelected(subject)} name={subject.name} id={subject.name}>
-                                                <option value="">Todavía no voy a cursar</option>
-                                                <option value="cant">No puedo por los horarios</option>
-                                                <option value="c1">Cursaria en C1</option>
-                                                <option value="c2">Cursaria en C2</option>
-                                                <option value="approve">Ya la cursé</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                )
-                            }
+                            return(
+                                this._renderSubject(subject)
+                            )
                         })
                         }
                     </div>
