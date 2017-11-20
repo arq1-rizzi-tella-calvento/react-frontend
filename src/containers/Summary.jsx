@@ -37,14 +37,14 @@ class Summary extends Component {
           <td>{ subject.name }</td>
           <td>{ subject.chair }</td>
           <td>{ subject.number_of_students }</td>
-          <td className={ this._fullnessPercentageClass(subject.fullness_percentage) }>{ subject.fullness_percentage }%</td>
+          <td width="10%" className={ `${this._fullnessPercentageClass(subject.fullness_percentage)} percentage-value` }>{ subject.fullness_percentage }%</td>
         </tr>
       )
     }))
   }
 
   _answersPercentage = () => {
-    return this._renderAfterLoading(<span>Ha contestado el { this.props.answers_percentage }% de los estudiantes</span>)
+    return this._renderAfterLoading(<span className="answers-percentage">Ha contestado el { this.props.answers_percentage }% de los estudiantes</span>)
   }
 
   _filterSubjects = (dropdown) => {
@@ -58,7 +58,7 @@ class Summary extends Component {
 
   _subjectsFilter = () => {
     return this._renderAfterLoading(
-      <select onChange={ this._filterSubjects }>
+      <select className="subjects-filter" onChange={ this._filterSubjects }>
         <option value="all">Todos</option>
         <option value="highly-demanded">Por llenar</option>
         <option value="full">Llenos</option>
@@ -83,21 +83,24 @@ class Summary extends Component {
 
   render() {
     return (
-      <div>
-        { this._answersPercentage() }
-        <br/>
-        { this._subjectsFilter() }
-        <table className="table">
+      <div className="subjects-summary">
+        <div className="subjects-summary-header">
+          { this._answersPercentage() }
+          { this._subjectsFilter() }
+        </div>
+        <div className="table-responsive subject-table">
+        <table className="table table-striped table-bordered">
           <thead className="thead-inverse">
-          <tr>
-            <th>Materia</th>
-            <th>Comisión</th>
-            <th>Inscriptos</th>
-            <th>% ocupado</th>
-          </tr>
+            <tr>
+              <th>Materia</th>
+              <th>Comisión</th>
+              <th>Inscriptos</th>
+              <th>% ocupado</th>
+            </tr>
           </thead>
           <tbody>{ this._subjects() }</tbody>
         </table>
+        </div>
       </div>
     )
   }
