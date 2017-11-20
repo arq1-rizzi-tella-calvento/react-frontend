@@ -8,4 +8,4 @@ const enrollStudent = (studentData, success, error) => {
   post('/signup', studentData).then(success).catch(error)
 };
 
-export { authStudent, enrollStudent };
+export { authStudent, enrollStudent};
