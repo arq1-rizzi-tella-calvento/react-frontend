@@ -4,17 +4,19 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from '../actions'
 import '../styles/summary.css'
+import 'semantic-ui-css/semantic.min.css';
+import { Sidebar, Segment, Button, Menu, Icon } from 'semantic-ui-react'
 
 class Summary extends Component {
   constructor(props) {
     super(props)
     this.props.actions.getSubjectsSummary()
-    this.state = { subjects: [] }
+    this.state = { subjects: [], visible: false }
   }
 
   componentWillReceiveProps(nextProps) {
     if(!this.state.loaded && nextProps.subjects) {
-      this.setState({ subjects: nextProps.subjects, loaded: true })
+      this.setState({ subjects: nextProps.subjects, loaded: true, visible: this.state.visible })
     }
   }
 
@@ -53,7 +55,7 @@ class Summary extends Component {
       return selectedFilter(subject)
     })
 
-    this.setState({ subjects: subjects })
+    this.setState({ subjects: subjects, visible: this.state.visible })
   }
 
   _subjectsFilter = () => {
@@ -81,26 +83,50 @@ class Summary extends Component {
     return this.state.loaded && htmlNode
   }
 
+  toggleVisibility = () => this.setState({ visible: !this.state.visible })
+
   render() {
+    const { visible } = this.state
+
     return (
-      <div className="subjects-summary">
-        <div className="subjects-summary-header">
-          { this._answersPercentage() }
-          { this._subjectsFilter() }
-        </div>
-        <div className="table-responsive subject-table">
-        <table className="table table-striped table-bordered">
-          <thead className="thead-inverse">
-            <tr>
-              <th>Materia</th>
-              <th>Comisión</th>
-              <th>Inscriptos</th>
-              <th>% ocupado</th>
-            </tr>
-          </thead>
-          <tbody>{ this._subjects() }</tbody>
-        </table>
-        </div>
+      <div>
+        <Sidebar.Pushable as={Segment}>
+          <Sidebar as={Menu} animation='overlay' width='thin' visible={visible} icon='labeled' vertical inverted>
+            <Menu.Item name='close'>
+              <Icon inverted={true} name='close' onClick={this.toggleVisibility}/>
+            </Menu.Item>
+            <Menu.Item name='tasks'>
+              <Icon name='tasks' />
+              Resumen
+            </Menu.Item>
+            <Menu.Item name='users'>
+              <Icon inverted={true} name='users' />
+              Alumnos
+            </Menu.Item>
+          </Sidebar>
+          <Sidebar.Pusher>
+            <Icon id="hamburguer-icon" size="big" name="sidebar" onClick={this.toggleVisibility}/>
+            <div className="subjects-summary">
+              <div className="subjects-summary-header">
+                { this._answersPercentage() }
+                { this._subjectsFilter() }
+              </div>
+              <div className="table-responsive subject-table">
+                <table className="table table-striped table-bordered">
+                  <thead className="thead-inverse">
+                  <tr>
+                    <th>Materia</th>
+                    <th>Comisión</th>
+                    <th>Inscriptos</th>
+                    <th>% ocupado</th>
+                  </tr>
+                  </thead>
+                  <tbody>{ this._subjects() }</tbody>
+                </table>
+              </div>
+            </div>
+          </Sidebar.Pusher>
+        </Sidebar.Pushable>
       </div>
     )
   }

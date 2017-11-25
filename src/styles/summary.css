@@ -22,10 +22,30 @@
   font-weight: bold;
 }
 
+.subjects-summary {
+  padding: 2% 10% 5% 10%
+}
+
 .subjects-summary-header {
   margin-bottom: 1%
 }
 
 .percentage-value {
   text-align: center
+}
+
+.container {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  max-width: 100%;
+}
+
+#hamburguer-icon {
+  padding-left: 4px;
+  padding-top: 2px;
+}
+
+.segment {
+  border: 0 !important
 }
