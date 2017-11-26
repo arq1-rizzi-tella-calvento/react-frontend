@@ -26,7 +26,7 @@ export default class  SubjectsPoll extends Component {
     handleSubmit = (event) => {
         submitSurvey(
             this.state,
-            data => console.log('submit ok'),
+            data => console.log(data),
             data => render(<Alert msg={data.message}/>, document.getElementById('alert'))
         )
         event.preventDefault();
@@ -52,7 +52,7 @@ export default class  SubjectsPoll extends Component {
         return (
             chairs.map((name,id) => {
                 return(
-                    <option value={id}>{name}</option>
+                    <option value={name}>{name}</option>
                 )
             })
         )
