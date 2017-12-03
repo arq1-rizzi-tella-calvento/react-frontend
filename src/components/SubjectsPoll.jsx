@@ -3,6 +3,7 @@ import { surveyOptions } from '../actions/subjects.js';
 import Alert from '../components/Alert.jsx';
 import { render } from 'react-dom';
 import { submitSurvey } from '../actions/subjects';
+import SurveyConfirmation from '../containers/SurveySummary.jsx';
 
 export default class  SubjectsPoll extends Component {
     state = { subjects: [] }
@@ -17,7 +18,7 @@ export default class  SubjectsPoll extends Component {
             const selectDropdown = selected.target;
             this.state.subjects.map(subject => {
                 if(subject.name === selectDropdown.name){
-                    subject.condition = selectDropdown.value
+                    subject.selectedChair = selectDropdown.value
                 }
             });
         }
@@ -26,7 +27,7 @@ export default class  SubjectsPoll extends Component {
     handleSubmit = (event) => {
         submitSurvey(
             this.state,
-            data => console.log(data),
+            data =>render (<SurveyConfirmation msg={data} /> , document.getElementById('root')),
             data => render(<Alert msg={data.message}/>, document.getElementById('alert'))
         )
         event.preventDefault();
