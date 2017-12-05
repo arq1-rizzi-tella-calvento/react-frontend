@@ -2,8 +2,8 @@ import { post, get } from '../httpMethods.js';
 
 const allSubjects = (success) => { get('/signup/subjects').then(success); }
 
-const surveyOptions = (userId, success, error) => {
-    return get(`/surveys/${userId}/new`).then(success).catch(error)
+const surveyOptions = (token, success, error) => {
+    return get(`/surveys/${token}/new`).then(success).catch(error)
 };
 
 const submitSurvey = (survey, success, error) => {

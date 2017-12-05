@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import * as actions from '../actions'
 import '../styles/summary.css'
 import 'semantic-ui-css/semantic.min.css';
-import { Sidebar, Segment, Button, Menu, Icon } from 'semantic-ui-react'
+import { Sidebar, Segment, Menu, Icon } from 'semantic-ui-react'
 
 class Summary extends Component {
   constructor(props) {
@@ -73,7 +73,7 @@ class Summary extends Component {
     const filters = {
       "all": (subject) => { return true },
       "highly-demanded": (subject) => { return subject.fullness_percentage >= 80 && subject.fullness_percentage < 100 },
-      "full": (subject) => { return subject.fullness_percentage == 100 },
+      "full": (subject) => { return subject.fullness_percentage === 100 },
       "over-demanded": (subject) => { return subject.fullness_percentage > 100 }
     }
     return filters[value]
