@@ -22,7 +22,7 @@ export default class SubjectsList extends Component {
         }
     };
 
-    _renderSubject(name, id) {
+    _renderSubject(id, name) {
         return (
             <div key={id} className="col-xl-3 col-md-4 col-sm-6 col-12">
                 <div className="card mb-3">
@@ -43,9 +43,9 @@ export default class SubjectsList extends Component {
                     Haz click en las materias que ya aprobaste, esto evitara que aparezcan en encuestas posteriores.
                 </div>
                 <div className="row">
-                    { this.state.subjects.map((name, id) => {
+                    { this.state.subjects.map((subject) => {
                         return(
-                            this._renderSubject(name, id)
+                            this._renderSubject(subject[1], subject[0])
                         )
                     })
                     }
