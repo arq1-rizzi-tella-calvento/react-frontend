@@ -8,8 +8,8 @@ export default class  SubjectsPoll extends Component {
     state = { subjects: [] }
     componentDidMount() {
         surveyOptions(
-            this.props.match.params.user_id,
-            data => this.setState({ userId: this.props.match.params.user_id, subjects: data }))
+            this.props.match.params.token,
+            data => this.setState({ userId: this.props.match.params.token, subjects: data }))
     }
 
     setSelected = (subject) => {

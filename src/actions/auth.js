@@ -1,7 +1,7 @@
 import { post, get } from '../httpMethods.js';
 
-const authStudent = (identityDocument, success, error) => {
-  return get(`/signin/${identityDocument}`).then(success).catch(error)
+const authStudent = (token, success, error) => {
+  return get(`/signin/${token}`).then(success).catch(error)
 };
 
 const enrollStudent = (studentData, success, error) => {

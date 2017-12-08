@@ -6,19 +6,23 @@ import { render } from 'react-dom';
 import { enrollStudent } from '../actions/auth.js';
 
 export default class SignUp extends Component {
-  state = {
-    name: '',
-    email: '',
-    identity_document: '',
-    subjects: [],
-    firstSemester: false,
-    needStudentInfoSubmission: true,
-  };
+  constructor(props) {
+    super(props)
+    this.state = {
+      name: '',
+      identity_document: '',
+      subjects: [],
+      firstSemester: false,
+      needStudentInfoSubmission: true,
+      token: this.props.match.params.token
+    }
+  }
+
   captureUserInfo = (event) => {
     if (this.state.firstSemester || this.state.subjects.length > 0) {
       enrollStudent(
         this.state,
-        data => this.props.history.push(`/survey/${data.student_id}`),
+        data => this.props.history.push(`/survey/${data.token}`),
         data => render(<Alert msg={data.message}/>, document.getElementById('alert'))
       )
     } else {
@@ -26,6 +30,7 @@ export default class SignUp extends Component {
     }
     event.preventDefault();
   };
+
   updateSubjects = (subjectId) => {
     let selectedSubjects = this.state.subjects;
     if (selectedSubjects.includes(subjectId)) {
@@ -35,6 +40,7 @@ export default class SignUp extends Component {
     }
     this.setState({ subjects: selectedSubjects });
   };
+
   studentInformationView = () => {
     if (this.state.needStudentInfoSubmission) {
       return <div className='sign-box'>
@@ -43,8 +49,6 @@ export default class SignUp extends Component {
         <p className='sign-info'>Antes de empezar la encuesta, quisieramos que nos brindaras algunos datos para mejorar tu experiencia.</p>
         <input type="text" className="form-control" value={this.state.name} onChange={handleChange(this, 'name')} 
           placeholder="Nombre completo" required/>
-        <input type="email" className="form-control" value={this.state.email} onChange={handleChange(this, 'email')}
-          placeholder="Email" required/>
         <input type="text" className="form-control" value={this.state.identity_document} onChange={handleChange(this, 'identity_document')} 
           placeholder="Número de documento" required/>
     
@@ -61,6 +65,7 @@ export default class SignUp extends Component {
       return <SubjectsList handler={this.updateSubjects} />
     }
   };
+
   render() {
     return <form onSubmit={this.captureUserInfo}>
       { this.studentInformationView() }

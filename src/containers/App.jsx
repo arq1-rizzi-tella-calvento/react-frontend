@@ -11,9 +11,9 @@ const App = () => (
   <BrowserRouter>
     <div className='container'>
       <Switch>
-        <Route exact path="/" component={SignIn} />
-        <Route exact path="/signup" component={SignUp} />
-        <Route exact path="/survey/:user_id" component={SubjectsPoll} />
+        <Route exact path="/:token" component={SignIn} />
+        <Route exact path="/signup/:token" component={SignUp} />
+        <Route exact path="/survey/:token" component={SubjectsPoll} />
         <Route exact path="/director/:id" component={Summary} />
         <Route component={FourOhFour} />
       </Switch>
