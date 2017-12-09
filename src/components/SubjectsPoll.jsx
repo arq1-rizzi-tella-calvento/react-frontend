@@ -27,7 +27,7 @@ export default class  SubjectsPoll extends Component {
     handleSubmit = (event) => {
         submitSurvey(
             this.state,
-            data =>render (<SurveyConfirmation msg={data} /> , document.getElementById('root')),
+            data => render (<SurveyConfirmation msg={data} /> , document.getElementById('root')),
             data => render(<Alert msg={data.message}/>, document.getElementById('alert'))
         )
         event.preventDefault();
