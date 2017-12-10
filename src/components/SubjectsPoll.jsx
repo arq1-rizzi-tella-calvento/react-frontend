@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import { surveyOptions } from '../actions/subjects.js';
 import Alert from '../components/Alert.jsx';
 import { render } from 'react-dom';
-import { submitSurvey } from '../actions/subjects';
 import SurveyConfirmation from '../containers/SurveySummary.jsx';
 
 export default class  SubjectsPoll extends Component {
   state = { subjects: [] }
   componentDidMount() {
-    surveyOptions(
+    this.props.fetch(
       this.props.match.params.token,
       data => this.setState({ userId: this.props.match.params.token, subjects: data }))
   }
@@ -17,13 +15,22 @@ export default class  SubjectsPoll extends Component {
     return (selected) => {
       const selectDropdown = selected.target;
       let subjectsDup = this.state.subjects;
-      const subjects = subjectsDup.find(subject => subject.name === selectDropdown.name)
+      const subject = subjectsDup.find(subject => subject.name === selectDropdown.name)
       subject.selectedChair = selectDropdown.value;
       subject.selected = subject.selectedChair;
-      
+
       this.setState({ subjects: subjectsDup });
     }
   };
+
+  handleSubmit = (event) => {
+    this.props.submit(
+      this.state,
+      data => render (<SurveyConfirmation msg={data} /> , document.getElementById('root')),
+      data => render(<Alert msg={data.message}/>, document.getElementById('alert'))
+    )
+    event.preventDefault();
+  }
 
   _renderSubject(subject) {
     return (
@@ -45,15 +52,6 @@ export default class  SubjectsPoll extends Component {
     return chairs.map(chair => <option value={chair.id}>{chair.time}</option>);
   }
 
-  handleSubmit = (event) => {
-    submitSurvey(
-      this.state,
-      data => render (<SurveyConfirmation msg={data} /> , document.getElementById('root')),
-      data => render(<Alert msg={data.message}/>, document.getElementById('alert'))
-    )
-    event.preventDefault();
-  }
-  
   render() {
     return(
       <form onSubmit={ this.handleSubmit }>

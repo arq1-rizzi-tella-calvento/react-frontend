@@ -4,9 +4,14 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import SurveyConfirmation from './SurveySummary.jsx';
 import SubjectsPoll from '../components/SubjectsPoll.jsx';
+import { surveyOptions, submitSurvey, editSurvey, updateSurvey } from '../actions/subjects.js';
 import Summary from './Summary';
 
 const FourOhFour = () => <h1>404</h1>;
+const buildPoll = (fetchFunc, submitFunc) => {
+  return ({ match }) => <SubjectsPoll match={match} fetch={fetchFunc} submit={submitFunc} />
+}
+
 
 const App = () => (
   <BrowserRouter>
@@ -14,7 +19,8 @@ const App = () => (
       <Switch>
         <Route exact path="/:token" component={SignIn} />
         <Route exact path="/signup/:token" component={SignUp} />
-        <Route exact path="/survey/:token" component={SubjectsPoll} />
+        <Route exact path="/survey/:token" render={buildPoll(surveyOptions, submitSurvey)}/>
+        <Route exact path="/survey/:token/edit" render={buildPoll(editSurvey, updateSurvey)}/>
         <Route exact path="/summary" component={SurveyConfirmation} />
         <Route exact path="/director/:id" component={Summary} />
         <Route component={FourOhFour} />
