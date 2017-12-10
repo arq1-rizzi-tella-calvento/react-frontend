@@ -33,14 +33,20 @@ class Summary extends Component {
   }
 
   _subjects = () => {
-    return this._renderAfterLoading(this.state.subjects.map((subject, index) => {
+    return this._renderAfterLoading(this.state.subjects.map((subject) => {
+      let firstChair = subject.chairs[0];
+
       return (
-        <tr key={ `s-${index}` }>
-          <td>{ subject.name }</td>
-          <td>{ subject.chair }</td>
-          <td>{ subject.number_of_students }</td>
-          <td width="10%" className={ `${this._fullnessPercentageClass(subject.fullness_percentage)} percentage-value` }>{ subject.fullness_percentage }%</td>
-        </tr>
+        subject.chairs.map((chair, index) => {
+          return (
+            <tr key={ `${subject.name}-${chair.chair}` }>
+              { index === 0 && <td rowSpan={ subject.chairs.length }>{ subject.name }</td> }
+              <td>{ chair.chair }</td>
+              <td>{ chair.number_of_students }</td>
+              <td width="10%" className={ `${this._fullnessPercentageClass(chair.fullness_percentage) } percentage-value` }>{ chair.fullness_percentage }%</td>
+            </tr>
+          )
+        })
       )
     }))
   }
@@ -102,11 +108,19 @@ class Summary extends Component {
   _filterFor = (value) => {
     const filters = {
       "all": (subject) => { return true },
-      "highly-demanded": (subject) => { return subject.fullness_percentage >= 80 && subject.fullness_percentage < 100 },
-      "full": (subject) => { return subject.fullness_percentage === 100 },
-      "over-demanded": (subject) => { return subject.fullness_percentage > 100 }
+      "highly-demanded": (subject) => { return this._fullnessPercentages(subject).some(percentage => percentage >= 80 && percentage < 100) },
+      "full": (subject) => { return this._fullnessPercentages(subject).some(percentage => percentage === 100) },
+      "over-demanded": (subject) => { return this._fullnessPercentages(subject).some(percentage => percentage > 100) }
     }
     return filters[value]
+  }
+
+  _fullnessPercentages = (subject) => {
+    return subject.chairs.map(chair => chair.fullness_percentage)
+  }
+
+  _max = (values) => {
+    return Math.max.apply(Math, values)
   }
 
   _renderAfterLoading = (htmlNode) => this.state.loaded && htmlNode
@@ -121,8 +135,8 @@ class Summary extends Component {
   }
 
   _sortingOptions = {
-    "ascending": (a, b) => a.fullness_percentage - b.fullness_percentage,
-    "descending": (a, b) => b.fullness_percentage - a.fullness_percentage
+    "ascending": (a, b) => this._max(this._fullnessPercentages(a)) - this._max(this._fullnessPercentages(b)),
+    "descending": (a, b) => this._max(this._fullnessPercentages(b)) - this._max(this._fullnessPercentages(a))
   }
 
   _sorting = () => this._sortingOptions[this.state.sorting]
@@ -132,7 +146,7 @@ class Summary extends Component {
 
     return (
       <div>
-        <Sidebar.Pushable as={Segment}>
+        <Sidebar.Pushable as={Segment} height="100">
           <Sidebar as={Menu} animation='overlay' width='thin' visible={visible} icon='labeled' vertical inverted>
             <Menu.Item name='close'>
               <Icon inverted={true} name='close' onClick={this.toggleVisibility}/>
@@ -154,17 +168,17 @@ class Summary extends Component {
                 { this._subjectsFilters() }
               </div>
               <div className="table-responsive subject-table">
-                <table className="table table-striped table-bordered">
+                <table className="table table-bordered">
                   <thead className="thead-inverse">
-                  <tr>
-                    <th>Materia</th>
-                    <th>Comisión</th>
-                    <th>Inscriptos</th>
-                    <th>
-                      % ocupado
-                      <Icon name={ `sort ${this.state.sorting}` } onClick={ this._sortSubjects }/>
-                    </th>
-                  </tr>
+                    <tr>
+                      <th>Materia</th>
+                      <th>Comisión</th>
+                      <th>Inscriptos</th>
+                      <th>
+                        % ocupado
+                        <Icon name={ `sort ${this.state.sorting}` } onClick={ this._sortSubjects }/>
+                      </th>
+                    </tr>
                   </thead>
                   <tbody>{ this._subjects() }</tbody>
                 </table>
