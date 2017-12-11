@@ -35,14 +35,14 @@ export default class  SubjectsPoll extends Component {
 
     _renderSubject(subject) {
         return (
-            <div key={subject.name} className='col-md-12 form-group'>
+            <div key={subject.id} className='col-md-12 form-group'>
                 <div className='col-md-4'>{subject.name} </div>
                 <div className='col-md-6'>
-                    <select className='form-control' value={this.state.value} onChange={this.setSelected(subject)} name={subject.name} id={subject.name}>
-                        <option value="">Todavía no voy a cursar</option>
+                    <select className='form-control' value={this.state.value} onChange={this.setSelected(subject)} name={subject.name} id={subject.id}>
+                        <option value="dont">Todavía no voy a cursar</option>
                         <option value="cant">No puedo por los horarios</option>
                         { this._generateChairOptions(subject.chairs)}
-                        <option value="approve">Ya la cursé</option>
+                        <option value="approved">Ya la cursé</option>
                     </select>
                 </div>
             </div>
@@ -51,9 +51,9 @@ export default class  SubjectsPoll extends Component {
 
     _generateChairOptions(chairs){
         return (
-            chairs.map((name,id) => {
+            chairs.map((chair) => {
                 return(
-                    <option value={name}>{name}</option>
+                    <option value={chair.id}>{chair.time}</option>
                 )
             })
         )
