@@ -41,7 +41,7 @@ export default class  SubjectsPoll extends Component {
             <option value="dont">Todavía no voy a cursar</option>
             <option value="cant">No puedo por los horarios</option>
             { this._generateChairOptions(subject.chairs)}
-            <option value="approve">Ya la cursé</option>
+            <option value="approved">Ya la cursé</option>
           </select>
         </div>
       </div>
