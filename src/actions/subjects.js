@@ -6,8 +6,16 @@ const surveyOptions = (token, success, error) => {
     return get(`/surveys/${token}/new`).then(success).catch(error)
 };
 
+const editSurvey = (token, success, error) => {
+  return get(`/surveys/${token}/edit`).then(success).catch(error)
+};
+
 const submitSurvey = (survey, success, error) => {
     post('/surveys', survey).then(success).catch(error)
 };
 
-export { allSubjects, surveyOptions, submitSurvey };
+const updateSurvey = (survey, success, error) => {
+    post('/surveys', survey).then(success).catch(error)
+};
+
+export { allSubjects, surveyOptions, submitSurvey, editSurvey, updateSurvey };
