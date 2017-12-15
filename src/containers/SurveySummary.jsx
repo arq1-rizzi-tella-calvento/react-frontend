@@ -16,7 +16,9 @@ const SurveyConfirmation = (props) => (
             })
             }
           </p>
-          <span>Si queres editar hace click aqui : {props.msg.link} </span>
+          <span>Si queres editar hace click aqui :
+              <a target='_blank' href={props.msg.link}>  {props.msg.link}</a>
+          </span>
       </div>
     </div>
   </div>
