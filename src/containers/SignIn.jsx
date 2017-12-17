@@ -3,35 +3,35 @@ import { render } from 'react-dom'
 import { Link } from 'react-router-dom';
 import Alert from '../components/Alert.jsx';
 import { authStudent } from '../actions/auth.js';
+import 'semantic-ui-css/semantic.min.css';
+import { Loader } from 'semantic-ui-react'
 
 export default class SignIn extends Component {
-  state = {
-    identity_document: ''
-  };
-
-  findStudent = (event) => {
+  constructor(props) {
+    super(props);
     authStudent(
       this.studentToken(),
-      data => this.props.history.push(`/survey/${data.token}`),
+      this.redirectToNextStep,
       () => render(<Alert msg="No se encuentra el estudiante"/>, document.getElementById('alert'))
     )
-    event.preventDefault();
   }
 
   studentToken = () => {
     return this.props.match.params.token
   }
 
+  redirectToNextStep = (data) => {
+    if(data.identity_document && data.name) {
+      this.props.history.push(`/survey/${data.token}`)
+    } else {
+      this.props.history.push(`/signup/${this.studentToken()}`)
+    }
+  }
+
   render() {
     return (
       <div className="sign-box">
-        <div id="alert">
-        </div>
-        <form onSubmit={this.findStudent}>
-          <h2 className="sign-heading">¡Bienvenido a la encuesta!</h2>
-          <button className="btn btn-lg btn-primary btn-block" type="submit">Continuar</button>
-        </form>
-        <Link to={ `/signup/${this.studentToken()}` } className="text-center">¿Primera vez haciendo la encuesta?</Link>
+        <Loader active={ true } size='medium'></Loader>
       </div>
     )
   }

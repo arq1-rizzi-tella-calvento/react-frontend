@@ -59,7 +59,7 @@ export default class  SubjectsPoll extends Component {
         </div>
         <div>
           <div className="alert alert-dark">
-            Ahora decinos que materias tenes pensado cursar!
+            ¿Qué materias tenes pensado cursar?
           </div>
           <div className="row">
             { this.state.subjects.map(subject => this._renderSubject(subject)) }
