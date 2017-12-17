@@ -15,7 +15,7 @@ const buildPoll = (fetchFunc, submitFunc) => {
 
 const App = () => (
   <BrowserRouter>
-    <div className='container'>
+    <div className='container-fluid' style={{paddingBottom: 25 + 'px', paddingTop: 25 + 'px'}}>
       <Switch>
         <Route exact path="/:token" component={SignIn} />
         <Route exact path="/signup/:token" component={SignUp} />

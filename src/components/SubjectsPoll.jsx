@@ -34,10 +34,11 @@ export default class  SubjectsPoll extends Component {
 
   _renderSubject(subject) {
     return (
-      <div key={subject.name} className='col-md-6 form-group'>
-        <div className='col-md-12'>{subject.name}</div>
-        <div className='col-md-10'>
-          <select className='form-control' value={subject.selected} onChange={this.setSelected(subject)} name={subject.name} id={subject.name}>
+      <div key={subject.name} className='col-md-6 form-group' style={{textAlign: '-webkit-center', MozTextAlignLast: 'center'}}>
+        <div className='col-md-8' style={{textAlign: 'center', fontWeight: 'bolder', paddingBottom: 5 + 'px'}}>{subject.name}</div>
+        <div className='col-md-8'>
+          <select className='form-control' style={{textAlignLast: 'center' }}
+                  value={subject.selected} onChange={this.setSelected(subject)} name={subject.name} id={subject.name}>
             <option value="dont">Todavía no voy a cursar</option>
             <option value="cant">No puedo por los horarios</option>
             { this._generateChairOptions(subject.chairs)}
@@ -57,7 +58,7 @@ export default class  SubjectsPoll extends Component {
       <form onSubmit={ this.handleSubmit }>
         <div id="alert">
         </div>
-        <div>
+        <div className="container-fluid">
           <div className="alert alert-dark">
             Ahora decinos que materias tenes pensado cursar!
           </div>
