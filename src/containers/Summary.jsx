@@ -5,18 +5,18 @@ import { bindActionCreators } from 'redux'
 import * as actions from '../actions'
 import '../styles/summary.css'
 import 'semantic-ui-css/semantic.min.css';
-import { Sidebar, Segment, Menu, Icon } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
 
 class Summary extends Component {
   constructor(props) {
     super(props)
     this.props.actions.getSubjectsSummary()
-    this.state = { subjects: [], visible: false, fullnessFilter: this._filterFor('all'), filteredName: '', sorting: 'ascending' }
+    this.state = { subjects: [], fullnessFilter: this._filterFor('all'), filteredName: '', sorting: 'ascending' }
   }
 
   componentWillReceiveProps(nextProps) {
     if(!this.state.loaded && nextProps.subjects) {
-      this._updateState({ subjects: nextProps.subjects, loaded: true, visible: this.state.visible }, this._sortSubjects)
+      this._updateState({ subjects: nextProps.subjects, loaded: true }, this._sortSubjects)
     }
   }
 
@@ -125,8 +125,6 @@ class Summary extends Component {
 
   _renderAfterLoading = (htmlNode) => this.state.loaded && htmlNode
 
-  toggleVisibility = () => this._updateState({ visible: !this.state.visible })
-
   _sortSubjects = () => {
     const sortedSubjects = this.state.subjects.sort(this._sorting())
     const newOrder = Object.keys(this._sortingOptions).find(option => option !== this.state.sorting)
@@ -146,46 +144,28 @@ class Summary extends Component {
 
     return (
       <div>
-        <Sidebar.Pushable as={Segment} height="100">
-          <Sidebar as={Menu} animation='overlay' width='thin' visible={visible} icon='labeled' vertical inverted>
-            <Menu.Item name='close'>
-              <Icon inverted={true} name='close' onClick={this.toggleVisibility}/>
-            </Menu.Item>
-            <Menu.Item name='tasks'>
-              <Icon name='tasks' />
-              Resumen
-            </Menu.Item>
-            <Menu.Item name='users'>
-              <Icon inverted={true} name='users' />
-              Alumnos
-            </Menu.Item>
-          </Sidebar>
-          <Sidebar.Pusher>
-            <Icon id="hamburguer-icon" size="big" name="sidebar" onClick={this.toggleVisibility}/>
-            <div className="subjects-summary">
-              <div className="subjects-summary-header">
-                { this._answersPercentage() }
-                { this._subjectsFilters() }
-              </div>
-              <div className="table-responsive subject-table">
-                <table className="table table-bordered">
-                  <thead className="thead-inverse">
-                    <tr>
-                      <th>Materia</th>
-                      <th>Comisión</th>
-                      <th>Inscriptos</th>
-                      <th>
-                        % ocupado
-                        <Icon name={ `sort ${this.state.sorting}` } onClick={ this._sortSubjects }/>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>{ this._subjects() }</tbody>
-                </table>
-              </div>
-            </div>
-          </Sidebar.Pusher>
-        </Sidebar.Pushable>
+        <div className="subjects-summary">
+          <div className="subjects-summary-header">
+            { this._answersPercentage() }
+            { this._subjectsFilters() }
+          </div>
+          <div className="table-responsive subject-table">
+            <table className="table table-bordered">
+              <thead className="thead-inverse">
+                <tr>
+                  <th>Materia</th>
+                  <th>Comisión</th>
+                  <th>Inscriptos</th>
+                  <th>
+                    % ocupado
+                    <Icon name={ `sort ${this.state.sorting}` } onClick={ this._sortSubjects }/>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>{ this._subjects() }</tbody>
+            </table>
+          </div>
+        </div>
       </div>
     )
   }
