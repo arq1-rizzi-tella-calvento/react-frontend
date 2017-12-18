@@ -8,7 +8,10 @@ export default class  SubjectsPoll extends Component {
   componentDidMount() {
     this.props.fetch(
       this.props.match.params.token,
-      data => this.setState({ userId: this.props.match.params.token, subjects: data }))
+      data => this.setState({ 
+        token: this.props.match.params.token, subjects: data.subjects, surveyId: data.survey_id 
+      })
+    );
   }
 
   setSelected = (subject) => {
@@ -27,7 +30,7 @@ export default class  SubjectsPoll extends Component {
     this.props.submit(
       this.state,
       data => render (<SurveyConfirmation msg={data} /> , document.getElementById('root')),
-      data => render(<Alert msg={data.message}/>, document.getElementById('alert'))
+      data => render(<Alert msg={data.msg}/>, document.getElementById('alert'))
     )
     event.preventDefault();
   }

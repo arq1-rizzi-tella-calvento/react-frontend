@@ -9,7 +9,7 @@ const SurveyConfirmation = (props) => (
           { props.msg.subjects.map((subject) => {
             return(
               <div key={subject.name} className='col-md-12 form-control' style={{display: 'inline-flex', padding: 3 + 'px'}}>
-                <div className='col-md-6'>materia : {subject.subject_name}</div>
+                <div className='col-md-6'>Materia : {subject.subject_name}</div>
                 <div className='col-md-6'>{subject.time}</div>
               </div>
             )
