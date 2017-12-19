@@ -23,7 +23,7 @@ export default class SignUp extends Component {
       enrollStudent(
         this.state,
         data => this.props.history.push(`/survey/${data.token}`),
-        data => render(<Alert msg={data.message}/>, document.getElementById('alert'))
+        data => render(<Alert msg={data.msg}/>, document.getElementById('alert'))
       )
     } else {
       this.setState({ needStudentInfoSubmission: false })

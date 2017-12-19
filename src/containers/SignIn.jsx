@@ -31,6 +31,7 @@ export default class SignIn extends Component {
   render() {
     return (
       <div className="sign-box">
+        <div id='alert'></div>
         <Loader active={ true } size='medium'></Loader>
       </div>
     )

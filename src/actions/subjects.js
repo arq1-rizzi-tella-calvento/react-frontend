@@ -1,4 +1,4 @@
-import { post, get } from '../httpMethods.js';
+import { post, get, put } from '../httpMethods.js';
 
 const allSubjects = (success) => { get('/signup/subjects').then(success); }
 
@@ -11,11 +11,11 @@ const editSurvey = (token, success, error) => {
 };
 
 const submitSurvey = (survey, success, error) => {
-    post('/surveys', survey).then(success).catch(error)
+  post('/surveys', survey).then(success).catch(error)
 };
 
 const updateSurvey = (survey, success, error) => {
-    post('/surveys', survey).then(success).catch(error)
+  return put(`/surveys/${survey.token}`, survey).then(success).catch(error)
 };
 
 export { allSubjects, surveyOptions, submitSurvey, editSurvey, updateSurvey };
